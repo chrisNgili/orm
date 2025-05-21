@@ -26,6 +26,30 @@ def fetch_users():
     for user in users:
         print(f"ID : {user.id}  USERNAME : {user.username} EMAIL : {user.email}")
 
+def update_user():
+    user_id = int(input("Enter user ID to update: "))
+    user = session.query(User).filter_by(id=user_id).first()        
+
+    if user:
+        username = input("Enter new username: ")
+        email = input("Enter new email: ")
+        if username: user.username = username
+        if email: user.email = email
+
+        session.commit()
+        print("User updated successfully!!")
+    else: print("User not found!")    
+
+def delete_user():
+    user_id = int(input("Enter the user ID to delete: "))
+    user = session.query(User).filter_by(id=user_id).first()    
+
+    if user:
+        session.delete(user)
+        session.commit()
+        print("User deleted successfully")
+    else: print("User not found")    
+
 # Assignment
 # Delete, Update, fetch single user
 
@@ -43,6 +67,8 @@ def main():
         print("============TASK MANAGER=============")
         print("1. Create User ")
         print("2. List Users ")
+        print("3. Edit User ")
+        print("4. Delete User ")
         print("0. Exit ")
         choice = input("Enter your choice : ")
 
@@ -51,6 +77,10 @@ def main():
             create_user()
         elif choice=="2":
             fetch_users()
+        elif choice=="3":
+            update_user()
+        elif choice=="4":
+            delete_user()        
         elif choice=="0":
             print("Bye! Bye!")
             break
